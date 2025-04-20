@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
-.your-class {
-    color: aliceblue;
+#__root {
+  position: fixed;
+  top: 200px;
+  right: 20px;
+  background-color: white;
 }
