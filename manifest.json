@@ -11,13 +11,13 @@
       "32": "icon-32.png"
     }
   },
-
   "icons": {
     "128": "icon-128.png"
   },
-  "permissions": [
-    "activeTab"
+  "host_permissions": [
+    "https://chatgpt.com/*"
   ],
+  "permissions": ["webRequest", "storage", "tabs"],
   "content_scripts": [
     {
       "matches": [
