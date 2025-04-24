@@ -4,31 +4,35 @@ import {Message} from "@pages/types";
 import MessageBlock from "@pages/content/MessageBlock";
 
 export default function ConversationMap() {
-  const [shapeStyle, setShapeStyle] = useState('w-60 h-96')
   const [messages, setMessages] = useState<Message[]>([])
+  const [conversationId, setConversationId] = useState<string>('')
 
   useEffect(() => {
     chrome.runtime.sendMessage({
       type: 'getMessages'
     }).then((res: Message[]) => {
       console.log(res)
-      setMessages(res.filter(it => it.content !== ''))
+      setMessages(res.filter(it => it.content !== '' && it.from === 'ai'))
     })
-  }, [])
-  const [collapse, setCollapse] = useState<boolean>(false)
+  }, [conversationId])
+
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((request: {conversationId: string}) => {
+      setConversationId(request.conversationId)
+    })
+  }, []);
+  const [collapse, setCollapse] = useState<boolean>(true)
   const onMouseEnter = (e: MouseEvent) => {
     e.preventDefault()
-    setShapeStyle('w-60 h-96')
     setCollapse(false)
   }
 
   const onMouseLeave = (e: MouseEvent) => {
     e.preventDefault()
-    // setShapeStyle('w-32 h-56')
-    // setCollapse(true)
+    setCollapse(true)
   }
   return (
-    <div className={`${shapeStyle} border rounded-md border-gray-100 overflow-auto`}
+    <div className={`w-32 h-56 hover:w-60 hover:h-96 border rounded-md border-gray-100 overflow-auto transition-all duration-200 ease-in-out`}
          onMouseEnter={onMouseEnter}
          onMouseLeave={onMouseLeave}
     >

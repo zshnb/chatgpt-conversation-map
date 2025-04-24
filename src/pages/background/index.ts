@@ -12,7 +12,12 @@ chrome.webRequest.onSendHeaders.addListener(async (details) => {
   }
 
   const jwt = auth.value
-  await chrome.storage.local.set({ jwt, conversationId })
+  await chrome.storage.local.set({jwt, conversationId})
+  const tab = await getActiveTab();
+  if (!tab.id) {
+    return
+  }
+  await chrome.tabs.sendMessage(tab.id, {conversationId});
 
   function getConversationId() {
     const pattern = /(?<=conversation\/).{36}/
@@ -34,7 +39,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 })
 
 async function handleGetMessages(sendResponse: (response: unknown) => void) {
-  const {jwt, conversationId} = await chrome.storage.local.get<{jwt: string, conversationId: string}>(['jwt', 'conversationId'])
+  const {jwt, conversationId} = await chrome.storage.local.get<{
+    jwt: string,
+    conversationId: string
+  }>(['jwt', 'conversationId'])
   const messages = await getMessages(conversationId, jwt)
   sendResponse(messages)
 }
@@ -88,5 +96,11 @@ export async function getMessages(conversationId: string, jwt: string) {
       }
     }
   }
+
   return messages
+}
+
+async function getActiveTab() {
+  const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+  return tab;
 }
