@@ -1,41 +1,40 @@
 import {Message} from "@pages/types";
 import {fromMarkdown} from "mdast-util-from-markdown";
-import {Heading, Text} from "mdast";
-import _ from "lodash";
+import {Heading} from "mdast";
+import _, {isEmpty} from "lodash";
 import {getHeadingContent} from "@pages/content/util";
+import Spinner from "@pages/components/spinner";
 
 export type MessageBlockProps = {
   messages: Message[];
 }
 export default function MessageBlock({messages}: MessageBlockProps) {
-  document.querySelectorAll('h3').values().forEach(it => {
-    console.log('content', it.textContent)
-  })
   return (
     <div className={'space-y-1 p-2'}>
       {
-        messages.map((message, index) => {
-          const tree = fromMarkdown(message.content)
-          console.log('message markdown tree', tree)
-          const headingBlocks = tree.children.filter(
-            (child) => child.type === 'heading')
-          if (!_.isEmpty(headingBlocks)) {
-            const topLevel = [...headingBlocks].sort((a, b) => a.depth - b.depth)[0].depth
-            return headingBlocks.map((heading) => {
-              const headingContent = getHeadingContent(heading.children)
-              const htmlElement = document.querySelectorAll(`div#thread h${heading.depth}`).values()
-                .find(it => it.textContent === headingContent) as (HTMLElement | undefined)
-              return <MessageLine key={index}
-                                  element={htmlElement}
-                                  headingContent={headingContent}
-                                  indentLevel={heading.depth - topLevel}
-                                  topLevel={topLevel}
-                                  heading={heading}/>
-            }).flat()
-          } else {
-            return []
-          }
-        })
+        isEmpty(messages) ? <Spinner/> : (
+          messages.map((message, index) => {
+            const tree = fromMarkdown(message.content)
+            const headingBlocks = tree.children.filter(
+              (child) => child.type === 'heading')
+            if (!_.isEmpty(headingBlocks)) {
+              const topLevel = [...headingBlocks].sort((a, b) => a.depth - b.depth)[0].depth
+              return headingBlocks.map((heading) => {
+                const headingContent = getHeadingContent(heading.children)
+                const htmlElement = document.querySelectorAll(`div#thread h${heading.depth}`).values()
+                  .find(it => it.textContent === headingContent) as (HTMLElement | undefined)
+                return <MessageLine key={index}
+                                    element={htmlElement}
+                                    headingContent={headingContent}
+                                    indentLevel={heading.depth - topLevel}
+                                    topLevel={topLevel}
+                                    heading={heading}/>
+              }).flat()
+            } else {
+              return []
+            }
+          })
+        )
       }
     </div>
   )
