@@ -1,8 +1,9 @@
 import {Message} from "@pages/types";
 import {fromMarkdown} from "mdast-util-from-markdown";
-import {Heading, Text} from "mdast";
+import {Heading} from "mdast";
 import _ from "lodash";
 import {getHeadingContent} from "@pages/content/util";
+import {Spinner} from "@heroui/react";
 
 export type MessageBlockProps = {
   messages: Message[];
@@ -13,6 +14,7 @@ export default function MessageBlock({messages}: MessageBlockProps) {
   })
   return (
     <div className={'space-y-1 p-2'}>
+      <Spinner size={'sm'}/>
       {
         messages.map((message, index) => {
           const tree = fromMarkdown(message.content)

@@ -1,6 +1,9 @@
+import {Spinner} from "@heroui/react";
+
 export default function SummaryLine() {
   return (
     <>
+      <Spinner/>
       {
         [0,1,2].map(() => (
           <>
