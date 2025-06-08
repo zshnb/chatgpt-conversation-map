@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@types/mdast':
-        specifier: ^4.0.4
-        version: 4.0.4
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -39,15 +36,18 @@ importers:
       '@types/lodash':
         specifier: ^4.17.17
         version: 4.17.17
+      '@types/mdast':
+        specifier: ^4.0.4
+        version: 4.0.4
       '@types/node':
         specifier: ^22.14.0
         version: 22.14.1
       '@types/react':
-        specifier: ^19.1.0
-        version: 19.1.2
+        specifier: ^19.1.6
+        version: 19.1.6
       '@types/react-dom':
         specifier: ^19.1.1
-        version: 19.1.2(@types/react@19.1.2)
+        version: 19.1.2(@types/react@19.1.6)
       '@types/webextension-polyfill':
         specifier: ^0.12.3
         version: 0.12.3
@@ -695,8 +695,8 @@ packages:
     peerDependencies:
       '@types/react': ^19.0.0
 
-  '@types/react@19.1.2':
-    resolution: {integrity: sha512-oxLPMytKchWGbnQM9O7D67uPa9paTNxO7jVoNMXgkkErULBPhPARCfkKL9ytcIJJRGjbsVwW4ugJzyFFvm/Tiw==}
+  '@types/react@19.1.6':
+    resolution: {integrity: sha512-JeG0rEWak0N6Itr6QUx+X60uQmN+5t3j9r/OVDtWzFXKaj6kD1BwJzOksD0FF6iWxZlbE1kB0q9vtnU2ekqa1Q==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -2765,11 +2765,11 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/react-dom@19.1.2(@types/react@19.1.2)':
+  '@types/react-dom@19.1.2(@types/react@19.1.6)':
     dependencies:
-      '@types/react': 19.1.2
+      '@types/react': 19.1.6
 
-  '@types/react@19.1.2':
+  '@types/react@19.1.6':
     dependencies:
       csstype: 3.1.3
 
