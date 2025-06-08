@@ -71,7 +71,7 @@ export async function getMessages(conversationId: string, jwt: string) {
   messages.push({
     id: currentMessage.message.id,
     from: currentMessage.message.author.role === 'assistant' ? 'ai' : 'user',
-    content: currentMessage.message.content.parts[0].replaceAll('\n', '')
+    content: currentMessage.message.content.parts[0]
   })
   while (currentMessage.children.length > 0) {
     currentMessage = getNextAssistantMessage(currentMessage)
@@ -81,7 +81,7 @@ export async function getMessages(conversationId: string, jwt: string) {
     messages.push({
       id: currentMessage.message.id,
       from: currentMessage.message.author.role === 'assistant' ? 'ai' : 'user',
-      content: currentMessage.message.content.parts[0].replaceAll('\n', '')
+      content: currentMessage.message.content.parts[0]
     })
   }
 

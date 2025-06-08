@@ -1,35 +1,65 @@
 import {Message} from "@pages/types";
+import {fromMarkdown} from "mdast-util-from-markdown";
+import {Heading, Text} from "mdast";
+import _ from "lodash";
+import {getHeadingContent} from "@pages/content/util";
 
 export type MessageBlockProps = {
   messages: Message[];
 }
 export default function MessageBlock({messages}: MessageBlockProps) {
-
+  document.querySelectorAll('h3').values().forEach(it => {
+    console.log('content', it.textContent)
+  })
   return (
-    <div className={'space-y-4 p-3'}>
-      {messages.map((message, index) => (<MessageLine key={index} message={message}/>))}
+    <div className={'space-y-1 p-2'}>
+      {
+        messages.map((message, index) => {
+          const tree = fromMarkdown(message.content)
+          console.log('message markdown tree', tree)
+          const headingBlocks = tree.children.filter(
+            (child) => child.type === 'heading')
+          if (!_.isEmpty(headingBlocks)) {
+            const topLevel = [...headingBlocks].sort((a, b) => a.depth - b.depth)[0].depth
+            return headingBlocks.map((heading) => {
+              const headingContent = getHeadingContent(heading.children)
+              const htmlElement = document.querySelectorAll(`div#thread h${heading.depth}`).values()
+                .find(it => it.textContent === headingContent) as (HTMLElement | undefined)
+              return <MessageLine key={index}
+                                  element={htmlElement}
+                                  headingContent={headingContent}
+                                  indentLevel={heading.depth - topLevel}
+                                  topLevel={topLevel}
+                                  heading={heading}/>
+            }).flat()
+          } else {
+            return []
+          }
+        })
+      }
     </div>
   )
 }
 
 type MessageLineProps = {
-  message: Message
+  topLevel: number
+  indentLevel: number
+  heading: Heading
+  headingContent: string
+  element?: HTMLElement
 }
-function MessageLine({message}: MessageLineProps) {
-  const handleClick = () => {
-    const targetElement = document.querySelector(`[data-message-id="${message.id}"]`);
 
-    if (targetElement) {
+function MessageLine({heading, headingContent, topLevel, indentLevel, element}: MessageLineProps) {
+  const handleClick = () => {
+    if (element) {
       // 平滑滚动到目标元素
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
   }
-  const textColor: string = message.from === 'ai' ? 'bg-gray-200 text-gray-800' : 'bg-blue-500 text-white'
+
+  const margin = heading.depth === topLevel ? 0 : `${10 * indentLevel}px`
   return (
-    <div className={`flex justify-start`}>
-      <div className={`max-w-11/12 max-h-10 overflow-auto ${textColor} p-1 rounded-lg cursor-pointer`} onClick={handleClick}>
-        <p className={'text-xs break-all'}>{message.content}</p>
-      </div>
-    </div>
+    <p className={`text-xs ${margin} hover:cursor-pointer hover:bg-gray-200 hover:rounded-md p-2`}
+       style={{marginLeft: margin}} onClick={handleClick}>{headingContent}</p>
   )
 }

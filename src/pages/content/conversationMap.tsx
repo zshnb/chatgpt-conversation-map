@@ -11,7 +11,7 @@ export default function ConversationMap() {
     chrome.runtime.sendMessage({
       type: 'getMessages'
     }).then((res: Message[]) => {
-      console.log(res)
+      console.log('get message result', res)
       setMessages(res.filter(it => it.content !== '' && it.from === 'ai'))
     })
   }, [conversationId])
