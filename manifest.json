@@ -1,10 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "ChatGPT对话目录导航地图",
-  "description": "description in manifest.json",
-  "options_ui": {
-    "page": "src/pages/options/index.html"
-  },
+  "name": "ChatGPT对话目录定位",
+  "description": "一个可以显示ChatGPT对话目录的插件，点击目录项可以跳转对应位置",
   "action": {
     "default_popup": "src/pages/popup/index.html",
     "default_icon": {
@@ -12,12 +9,15 @@
     }
   },
   "icons": {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
     "128": "icon-128.png"
   },
   "host_permissions": [
     "https://chatgpt.com/*"
   ],
-  "permissions": ["webRequest", "storage", "tabs"],
+  "permissions": ["webRequest", "storage"],
   "content_scripts": [
     {
       "matches": [
@@ -37,7 +37,9 @@
       "resources": [
         "contentStyle.css",
         "icon-128.png",
-        "icon-32.png"
+        "icon-48.png",
+        "icon-32.png",
+        "icon-16.png"
       ],
       "matches": []
     }
