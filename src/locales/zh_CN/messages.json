@@ -1,0 +1,26 @@
+{
+  "extName": {
+    "message": "ChatGPT对话目录大纲",
+    "description": ""
+  },
+  "extDescription": {
+    "message": "一个可以显示ChatGPT对话目录大纲的插件，点击目录项可以跳转网页对应位置",
+    "description": ""
+  },
+  "popupTitle": {
+    "message": "ChatGPT对话目录大纲",
+    "description": ""
+  },
+  "popupDescription": {
+    "message": "这个插件可以通过创建一个目录大纲，帮助你定位长对话的任意内容。"
+  },
+  "popupNavigateButton": {
+    "message": "前往ChatGPT"
+  },
+  "contentRefresh": {
+    "message": "若无法加载内容，请刷新页面"
+  },
+  "contentNoItems": {
+    "message": "无大纲"
+  }
+}

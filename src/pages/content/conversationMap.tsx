@@ -6,6 +6,7 @@ import MessageBlock from "@pages/content/MessageBlock";
 export default function ConversationMap() {
   const [messages, setMessages] = useState<Message[]>([])
   const [conversationId, setConversationId] = useState<string>('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     chrome.runtime.sendMessage({
@@ -13,12 +14,14 @@ export default function ConversationMap() {
       conversationId
     }).then((res: Message[]) => {
       console.log('get message result', res)
+      setLoading(false)
       setMessages(res.filter(it => it.content !== '' && it.from === 'ai'))
     })
   }, [conversationId])
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener((request: {conversationId: string}) => {
+      console.log('set conversationId', request)
       setConversationId(request.conversationId)
     })
   }, []);
@@ -45,7 +48,7 @@ export default function ConversationMap() {
 					<SummaryLine />
 				</ul>
 			) : (
-				<MessageBlock messages={messages} />
+				<MessageBlock messages={messages} loading={loading}/>
 			)}
 		</div>
 	);

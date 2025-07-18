@@ -1,10 +1,26 @@
 {
   "extName": {
-    "message": "name in src/locales/en/messages.json",
-    "description": "Extension name"
+    "message": "ChatGPT Outline Map",
+    "description": "A extension which can provide a outline of conversation, and able to click to navigate in website"
   },
   "extDescription": {
-    "message": "description in src/locales/en/messages.json",
-    "description": "Extension description"
+    "message": "A extension which can provide a outline of conversation, and able to click to navigate in website",
+    "description": "A extension which can provide a outline of conversation, and able to click to navigate in website"
+  },
+  "popupTitle": {
+    "message": "ChatGPT Outline Map",
+    "description": ""
+  },
+  "popupDescription": {
+    "message": "This extension helps you navigate long conversations by creating a clickable outline of the discussion."
+  },
+  "popupNavigateButton": {
+    "message": "Go to ChatGPT"
+  },
+  "contentRefresh": {
+    "message": "If can't load outline, please refresh page"
+  },
+  "contentNoItems": {
+    "message": "No outline"
   }
 }

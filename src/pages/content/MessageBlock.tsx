@@ -7,17 +7,21 @@ import Spinner from "@pages/components/spinner";
 
 export type MessageBlockProps = {
   messages: Message[];
+  loading: boolean
 }
-export default function MessageBlock({messages}: MessageBlockProps) {
+export default function MessageBlock({messages, loading}: MessageBlockProps) {
   return (
     <div className={'space-y-1 p-2'}>
       {
-        isEmpty(messages) ? (
+        loading ? (
           <>
             <Spinner/>
-            <p className="text-center text-sm">若无法加载内容，请刷新页面</p>
+            <p className="text-center text-sm">{chrome.i18n.getMessage('contentRefresh')}</p>
           </>
         ) : (
+          isEmpty(messages) ? (
+            <p className="text-center text-lg">{chrome.i18n.getMessage('contentNoItems')}</p>
+          ) : 
           messages.map((message, index) => {
             const tree = fromMarkdown(message.content)
             const headingBlocks = tree.children.filter((child) => child.type === 'heading')
@@ -55,7 +59,6 @@ type MessageLineProps = {
 function MessageLine({heading, headingContent, topLevel, indentLevel, element}: MessageLineProps) {
   const handleClick = () => {
     if (element) {
-      // 平滑滚动到目标元素
       element.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
   }

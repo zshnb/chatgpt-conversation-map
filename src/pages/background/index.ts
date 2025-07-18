@@ -1,4 +1,5 @@
 import {ChatGPTConversationMapping, ChatGPTConversationResponse, Message} from "@pages/types";
+import { log } from "node:console";
 
 console.log('background script loaded');
 chrome.webRequest.onSendHeaders.addListener(async (details) => {
@@ -11,10 +12,14 @@ chrome.webRequest.onSendHeaders.addListener(async (details) => {
     return
   }
 
+  const jwt = auth.value
+  await chrome.storage.local.set({jwt})
+
   const tab = await getActiveTab();
-  if (!tab.id) {
+  if (!tab.id || !conversationId) {
     return
   }
+  await sleep(200)
   await chrome.tabs.sendMessage(tab.id, {conversationId});
 
   function getConversationId() {
@@ -40,8 +45,12 @@ async function handleGetMessages(conversationId: string, sendResponse: (response
   const {jwt} = await chrome.storage.local.get<{
     jwt: string,
   }>(['jwt'])
-  const messages = await getMessages(conversationId, jwt)
-  sendResponse(messages)
+  if (conversationId) {
+		const messages = await getMessages(conversationId, jwt);
+		sendResponse(messages);
+	} else {
+		sendResponse([]);
+	}
 }
 
 export async function getMessages(conversationId: string, jwt: string) {
@@ -101,3 +110,5 @@ async function getActiveTab() {
   const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
   return tab;
 }
+
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
