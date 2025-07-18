@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@types/mdast':
-        specifier: ^4.0.4
-        version: 4.0.4
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -39,6 +36,9 @@ importers:
       '@types/lodash':
         specifier: ^4.17.17
         version: 4.17.17
+      '@types/mdast':
+        specifier: ^4.0.4
+        version: 4.0.4
       '@types/node':
         specifier: ^22.14.0
         version: 22.14.1

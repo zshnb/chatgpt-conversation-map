@@ -32,17 +32,20 @@ export default function ConversationMap() {
     setCollapse(true)
   }
   return (
-    <div className={`w-32 h-56 hover:w-60 hover:h-96 border rounded-md border-gray-100 overflow-auto transition-all duration-200 ease-in-out`}
-         onMouseEnter={onMouseEnter}
-         onMouseLeave={onMouseLeave}
-    >
-      {
-        collapse ? (
-          <ul className={'space-y-3 p-2'}>
-            <SummaryLine/>
-          </ul>
-        ) : <MessageBlock messages={messages}/>
-      }
-    </div>
-  )
+		<div
+			className={`
+      w-32 h-56 hover:w-60 hover:h-96 border rounded-md border-gray-100 
+      overflow-auto transition-all duration-200 ease-in-out dark:bg-[#212121] dark:text-white`}
+			onMouseEnter={onMouseEnter}
+			onMouseLeave={onMouseLeave}
+		>
+			{collapse ? (
+				<ul className={'space-y-3 p-2'}>
+					<SummaryLine />
+				</ul>
+			) : (
+				<MessageBlock messages={messages} />
+			)}
+		</div>
+	);
 }

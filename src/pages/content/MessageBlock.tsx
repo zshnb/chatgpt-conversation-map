@@ -58,7 +58,8 @@ function MessageLine({heading, headingContent, topLevel, indentLevel, element}: 
 
   const margin = heading.depth === topLevel ? 0 : `${10 * indentLevel}px`
   return (
-    <p className={`text-xs ${margin} hover:cursor-pointer hover:bg-gray-200 hover:rounded-md p-2`}
+    <p className={`text-xs ${margin} hover:cursor-pointer hover:bg-[#d6d6d6] dark:hover:bg-gray-500
+     hover:rounded-md p-2 `}
        style={{marginLeft: margin}} onClick={handleClick}>{headingContent}</p>
   )
 }
