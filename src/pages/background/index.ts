@@ -11,8 +11,6 @@ chrome.webRequest.onSendHeaders.addListener(async (details) => {
     return
   }
 
-  const jwt = auth.value
-  await chrome.storage.local.set({jwt, conversationId})
   const tab = await getActiveTab();
   if (!tab.id) {
     return
@@ -33,16 +31,15 @@ chrome.webRequest.onSendHeaders.addListener(async (details) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('received request', request);
   if (request.type === 'getMessages') {
-    handleGetMessages(sendResponse)
+    handleGetMessages(request.conversationId, sendResponse)
   }
   return true
 })
 
-async function handleGetMessages(sendResponse: (response: unknown) => void) {
-  const {jwt, conversationId} = await chrome.storage.local.get<{
+async function handleGetMessages(conversationId: string, sendResponse: (response: unknown) => void) {
+  const {jwt} = await chrome.storage.local.get<{
     jwt: string,
-    conversationId: string
-  }>(['jwt', 'conversationId'])
+  }>(['jwt'])
   const messages = await getMessages(conversationId, jwt)
   sendResponse(messages)
 }

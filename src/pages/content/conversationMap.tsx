@@ -9,7 +9,8 @@ export default function ConversationMap() {
 
   useEffect(() => {
     chrome.runtime.sendMessage({
-      type: 'getMessages'
+      type: 'getMessages',
+      conversationId
     }).then((res: Message[]) => {
       console.log('get message result', res)
       setMessages(res.filter(it => it.content !== '' && it.from === 'ai'))

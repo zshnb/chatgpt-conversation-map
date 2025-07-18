@@ -12,11 +12,15 @@ export default function MessageBlock({messages}: MessageBlockProps) {
   return (
     <div className={'space-y-1 p-2'}>
       {
-        isEmpty(messages) ? <Spinner/> : (
+        isEmpty(messages) ? (
+          <>
+            <Spinner/>
+            <p className="text-center text-sm">若无法加载内容，请刷新页面</p>
+          </>
+        ) : (
           messages.map((message, index) => {
             const tree = fromMarkdown(message.content)
-            const headingBlocks = tree.children.filter(
-              (child) => child.type === 'heading')
+            const headingBlocks = tree.children.filter((child) => child.type === 'heading')
             if (!_.isEmpty(headingBlocks)) {
               const topLevel = [...headingBlocks].sort((a, b) => a.depth - b.depth)[0].depth
               return headingBlocks.map((heading) => {
