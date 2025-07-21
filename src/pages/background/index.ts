@@ -19,7 +19,7 @@ chrome.webRequest.onSendHeaders.addListener(async (details) => {
   if (!tab.id || !conversationId) {
     return
   }
-  await sleep(200)
+  await sleep(500)
   await chrome.tabs.sendMessage(tab.id, {conversationId});
 
   function getConversationId() {

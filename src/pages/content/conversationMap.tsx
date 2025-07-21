@@ -13,7 +13,6 @@ export default function ConversationMap() {
       type: 'getMessages',
       conversationId
     }).then((res: Message[]) => {
-      console.log('get message result', res)
       setLoading(false)
       setMessages(res.filter(it => it.content !== '' && it.from === 'ai'))
     })

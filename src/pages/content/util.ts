@@ -13,3 +13,7 @@ export function getHeadingContent(children: PhrasingContent[]) {
 
   return content
 }
+
+export function getParagraphContent(children: PhrasingContent[]) {
+  return children.find(it => it.type === 'strong')?.children.find(it => it.type === 'text')?.value || ''
+}
